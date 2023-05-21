@@ -7,7 +7,7 @@ const Settings: ProLayoutProps & {
   pwa?: boolean;
   logo?: string;
 } = {
-  navTheme: 'light',
+  navTheme: 'realDark',
   // 拂晓蓝
   colorPrimary: '#1890ff',
   layout: 'mix',
@@ -15,9 +15,9 @@ const Settings: ProLayoutProps & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'Ant Design Pro',
+  title: '啵啵肠的智能BI平台',
   pwa: true,
-  logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+  logo: './logo.svg',
   iconfontUrl: '',
   token: {
     // 参见ts声明，demo 见文档，通过token 修改样式
