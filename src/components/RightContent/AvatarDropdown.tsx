@@ -1,5 +1,5 @@
 import { userLogoutUsingPOST } from '@/services/bobochangBI/userController';
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
 import { history, useModel } from '@umijs/max';
 import { Spin } from 'antd';
@@ -67,7 +67,7 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
         loginOut();
         return;
       }
-      history.push(`/account/${key}`);
+      history.push(`/user/${key}`);
     },
     [setInitialState],
   );
@@ -96,22 +96,17 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
 
   const menuItems = [
     ...(menu
-      ? [
+      ? []
+      : [
           {
             key: 'center',
             icon: <UserOutlined />,
             label: '个人中心',
           },
           {
-            key: 'settings',
-            icon: <SettingOutlined />,
-            label: '个人设置',
-          },
-          {
             type: 'divider' as const,
           },
-        ]
-      : []),
+        ]),
     {
       key: 'logout',
       icon: <LogoutOutlined />,
