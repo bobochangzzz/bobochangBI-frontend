@@ -30,6 +30,7 @@ const Chart: React.FC = () => {
     // 向后端发起请求获取数据 并回传展示
     try {
       const res = await genChartByAiUsingPOST(params, {}, values.file.file.originFileObj);
+      console.log(values.file.file.originFileObj);
       if (!res?.data) {
         message.error('分析失败');
       } else {
