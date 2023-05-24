@@ -59,7 +59,7 @@ const Chart: React.FC = () => {
               labelCol={{ span: 4 }}
               onFinish={onFinish}
               initialValues={{}}
-              style={{ maxWidth: 600 }}
+              style={{ maxWidth: 600, whiteSpace: 'pre-wrap' }}
             >
               <Form.Item
                 name="goal"
@@ -110,13 +110,13 @@ const Chart: React.FC = () => {
             </Form>
           </Card>
         </Col>
-        <Col span={12}>
+        <Col span={12} style={{ whiteSpace: 'pre-wrap' }}>
           <Card title="分析图表">
             {option ? <ReactECharts option={option} /> : <div>请先在左侧进行提交操作</div>}
             <Spin spinning={submitting} />
           </Card>
           <Divider />
-          <Card title="分析结论" style={{ whiteSpace: 'pre-wrap' }}>
+          <Card title="分析结论">
             {chart?.genResult ?? <div>请先在左侧进行提交操作</div>}
             <Spin spinning={submitting} />
           </Card>

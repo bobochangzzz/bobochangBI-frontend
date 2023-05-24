@@ -17,7 +17,7 @@ const Settings: ProLayoutProps & {
   colorWeak: false,
   title: '啵啵肠的智能BI平台',
   pwa: true,
-  logo: './logo.svg',
+  logo: 'https://bobocahng-1309945187.cos.ap-guangzhou.myqcloud.com/20230524/IMG_0502.JPG',
   iconfontUrl: '',
   token: {
     // 参见ts声明，demo 见文档，通过token 修改样式
