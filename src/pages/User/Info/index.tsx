@@ -1,7 +1,8 @@
 import { uploadFileUsingPOST } from '@/services/bobochangBI/fileController';
 import { updateMyUserUsingPOST } from '@/services/bobochangBI/userController';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Card, Form, message, Space, Upload } from 'antd';
+import { history } from '@umijs/max';
+import { Button, Card, Col, Descriptions, Divider, Form, message, Row, Upload } from 'antd';
 import Input from 'antd/es/input/Input';
 import type { RcFile } from 'antd/es/upload/interface';
 import React, { useState } from 'react';
@@ -29,6 +30,7 @@ const Info: React.FC = () => {
   const [imageUrl, setImageUrl] = useState<string>();
   const [avatarUrl, setAvatarUrl] = useState<string>();
   const [submitting, setSubmitting] = useState(false);
+
   const uploadImg = async (values: any) => {
     const res = await uploadFileUsingPOST(
       values.name,
@@ -44,19 +46,6 @@ const Info: React.FC = () => {
       setImageUrl(url);
     });
   };
-  // const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
-  //   if (info.file.status === 'uploading') {
-  //     setLoading(true);
-  //     return;
-  //   }
-  //   if (info.file.status === 'done') {
-  //     // Get this url from response in real world.
-  //     getBase64(info.file.originFileObj as RcFile, (url) => {
-  //       setLoading(false);
-  //       setImageUrl(url);
-  //     });
-  //   }
-  // };
 
   const uploadButton = (
     <div>
@@ -82,16 +71,19 @@ const Info: React.FC = () => {
         message.error('修改失败');
       } else {
         message.success('修改成功');
+        history.replace('/');
+        location.reload();
       }
     } catch (e: any) {
       message.error('修改失败 ' + e.message);
     }
     setSubmitting(false);
   };
+
   return (
     <>
       <Card title="个人设置" style={{ whiteSpace: 'pre-wrap' }}>
-        <Form name="userInfo" labelAlign="left" onFinish={onFinish}>
+        <Form name="userSetting" labelAlign="left" onFinish={onFinish}>
           <Form.Item name="userName" label="用户名称">
             <Input></Input>
           </Form.Item>
@@ -114,15 +106,35 @@ const Info: React.FC = () => {
             </Upload>
           </Form.Item>
 
-          <Form.Item wrapperCol={{ span: 20, offset: 20 }}>
-            <Space>
-              <Button htmlType="reset">重置</Button>
-              <Button type="primary" htmlType="submit" loading={submitting} disabled={submitting}>
-                修改
-              </Button>
-            </Space>
+          <Form.Item style={{ marginTop: 32 }}>
+            <Row
+              style={{
+                marginLeft: -12,
+                marginRight: -12,
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <Col style={{ paddingLeft: 12, paddingRight: 12 }}>
+                <Button htmlType="reset">重置</Button>
+              </Col>
+              <Col style={{ paddingLeft: 12, paddingRight: 12 }}>
+                <Button type="primary" htmlType="submit" loading={submitting} disabled={submitting}>
+                  修改
+                </Button>
+              </Col>
+            </Row>
           </Form.Item>
         </Form>
+      </Card>
+      <Divider />
+      <Card title="个人信息" style={{ whiteSpace: 'pre-wrap' }}>
+        <Descriptions>
+          <Descriptions.Item label="剩余调用次数">2</Descriptions.Item>
+        </Descriptions>
+        <Descriptions>
+          <Descriptions.Item label="累计调用次数">52</Descriptions.Item>
+        </Descriptions>
       </Card>
     </>
   );

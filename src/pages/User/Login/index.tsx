@@ -11,7 +11,6 @@ import { Link } from 'umi';
 import Settings from '../../../../config/defaultSettings';
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
   const containerClassName = useEmotionCss(() => {
@@ -58,7 +57,6 @@ const Login: React.FC = () => {
       message.error(defaultLoginFailureMessage);
     }
   };
-  const { status, type: loginType } = userLoginState;
   return (
     <div className={containerClassName}>
       <Helmet>
