@@ -1,11 +1,11 @@
 import { uploadFileUsingPOST } from '@/services/bobochangBI/fileController';
-import { updateMyUserUsingPOST } from '@/services/bobochangBI/userController';
+import { getLoginUserUsingGET, updateMyUserUsingPOST } from '@/services/bobochangBI/userController';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { history } from '@umijs/max';
-import { Button, Card, Col, Descriptions, Divider, Form, message, Row, Upload } from 'antd';
+import { useModel } from '@umijs/max';
+import { Button, Card, Col, Form, message, Row, Upload } from 'antd';
 import Input from 'antd/es/input/Input';
 import type { RcFile } from 'antd/es/upload/interface';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   const reader = new FileReader();
@@ -30,7 +30,20 @@ const Info: React.FC = () => {
   const [imageUrl, setImageUrl] = useState<string>();
   const [avatarUrl, setAvatarUrl] = useState<string>();
   const [submitting, setSubmitting] = useState(false);
+  const [userData, setUserData] = useState<API.LoginUserVO>();
+  const { initialState, setInitialState } = useModel('@@initialState');
 
+  const loadData = async () => {
+    try {
+      const res = await getLoginUserUsingGET();
+      console.log(res.data);
+      if (res.data) {
+        setUserData(res.data);
+      }
+    } catch (e: any) {
+      message.error('获取用户信息失败 ' + e.message);
+    }
+  };
   const uploadImg = async (values: any) => {
     const res = await uploadFileUsingPOST(
       values.name,
@@ -54,6 +67,11 @@ const Info: React.FC = () => {
     </div>
   );
 
+  const resetUpload = () => {
+    setAvatarUrl(''); // 重置上传组件中显示的图片链接
+    setImageUrl(''); // 重置预览的图片链接
+  };
+
   const onFinish = async (values: any) => {
     if (submitting) {
       return;
@@ -71,14 +89,29 @@ const Info: React.FC = () => {
         message.error('修改失败');
       } else {
         message.success('修改成功');
-        history.replace('/');
-        location.reload();
+        const updateUserData = await getLoginUserUsingGET();
+        if (updateUserData.data) {
+          // 更新全局状态中的用户信息
+          setUserData(updateUserData.data);
+        }
+        // 更新全局状态中的用户信息
+        setInitialState((prevState: any) => ({
+          ...prevState,
+          currentUser: {
+            ...prevState.currentUser,
+            ...updateUserData.data,
+          },
+        }));
       }
     } catch (e: any) {
       message.error('修改失败 ' + e.message);
     }
     setSubmitting(false);
   };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   return (
     <>
@@ -116,7 +149,9 @@ const Info: React.FC = () => {
               }}
             >
               <Col style={{ paddingLeft: 12, paddingRight: 12 }}>
-                <Button htmlType="reset">重置</Button>
+                <Button htmlType="reset" onClick={resetUpload}>
+                  重置
+                </Button>
               </Col>
               <Col style={{ paddingLeft: 12, paddingRight: 12 }}>
                 <Button type="primary" htmlType="submit" loading={submitting} disabled={submitting}>
@@ -126,15 +161,6 @@ const Info: React.FC = () => {
             </Row>
           </Form.Item>
         </Form>
-      </Card>
-      <Divider />
-      <Card title="个人信息" style={{ whiteSpace: 'pre-wrap' }}>
-        <Descriptions>
-          <Descriptions.Item label="剩余调用次数">2</Descriptions.Item>
-        </Descriptions>
-        <Descriptions>
-          <Descriptions.Item label="累计调用次数">52</Descriptions.Item>
-        </Descriptions>
       </Card>
     </>
   );

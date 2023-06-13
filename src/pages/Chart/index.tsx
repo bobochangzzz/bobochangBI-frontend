@@ -85,12 +85,13 @@ const Chart: React.FC = () => {
                 <Select
                   options={[
                     { value: '折线图', label: '折线图' },
+                    { value: '折线图堆叠', label: '折线图堆叠' },
                     { value: '平滑折线图', label: '平滑折线图' },
                     { value: '渐变折线图', label: '渐变折线图' },
-                    { value: '柱状图', label: '饼状图' },
+                    { value: '柱状图', label: '柱状图' },
                     { value: '饼图', label: '饼图' },
                     { value: '散点图', label: '散点图' },
-                    { value: '雷达图', label: '雷达图' },
+                    { value: '漏斗图', label: '漏斗图' },
                   ]}
                 />
               </Form.Item>
