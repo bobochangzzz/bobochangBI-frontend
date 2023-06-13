@@ -1,5 +1,5 @@
 import { userLogoutUsingPOST } from '@/services/bobochangBI/userController';
-import { DeploymentUnitOutlined, LogoutOutlined, MehOutlined } from '@ant-design/icons';
+import { LogoutOutlined, MehOutlined } from '@ant-design/icons';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
 import { history, useModel } from '@umijs/max';
 import { Spin } from 'antd';
@@ -99,11 +99,6 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
       key: 'info',
       icon: <MehOutlined />,
       label: '个人信息',
-    },
-    {
-      key: 'invoke',
-      icon: <DeploymentUnitOutlined />,
-      label: '接口平台',
     },
     {
       key: 'logout',
